@@ -1,0 +1,21 @@
+class Solution {
+  public int countPalindromicSubsequence(String inputString) {
+    int result = 0;
+    int[] firstOccurrence = new int[26];
+    int[] lastOccurrence = new int[26];
+
+    Arrays.fill(firstOccurrence, inputString.length());
+
+    for (int i = 0; i < inputString.length(); ++i) {
+      final int charIndex = inputString.charAt(i) - 'a';
+      firstOccurrence[charIndex] = Math.min(firstOccurrence[charIndex], i);
+      lastOccurrence[charIndex] = i;
+    }
+
+    for (int i = 0; i < 26; ++i)
+      if (firstOccurrence[i] < lastOccurrence[i])
+        result += inputString.substring(firstOccurrence[i] + 1, lastOccurrence[i]).chars().distinct().count();
+
+    return result;
+  }
+}
