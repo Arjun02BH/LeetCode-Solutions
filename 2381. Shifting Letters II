@@ -1,0 +1,24 @@
+class Solution {
+  public String shiftingLetters(String str, int[][] operations) {
+    StringBuilder result = new StringBuilder();
+    int cumulativeShift = 0;
+    int[] shiftTimeline = new int[str.length() + 1];
+
+    for (int[] operation : operations) {
+      final int startIndex = operation[0];
+      final int endIndex = operation[1];
+      final int shiftDirection = operation[2];
+      final int shiftAmount = shiftDirection == 1 ? 1 : -1;
+      shiftTimeline[startIndex] += shiftAmount;
+      shiftTimeline[endIndex + 1] -= shiftAmount;
+    }
+
+    for (int index = 0; index < str.length(); ++index) {
+      cumulativeShift = (cumulativeShift + shiftTimeline[index]) % 26;
+      final int charShift = (str.charAt(index) - 'a' + cumulativeShift + 26) % 26;
+      result.append((char) ('a' + charShift));
+    }
+
+    return result.toString();
+  }
+}
